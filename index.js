@@ -95,54 +95,174 @@ router.post('/poker/validation', async (req, res) => {
         //mano 2
         let mano2Total= [mano2Numeros[0],mano2Numeros[1],mano2Numeros[2],mano2Numeros[3], mano2Numeros[4],mano2Letras[0],mano2Letras[1],mano2Letras[2],mano2Letras[3]];
 
-        console.log(mano1Total,"Mano 1 numeros");
-        console.log(mano2Total,"Mano 2 numeros");
+       
+        console.log(Resultadosmano1,"Juego de jugador 1");
+        console.log(Resultadosmano2,"Juego de jugador 2");
+
+       poker1=ConversionPoker(Resultadosmano1);
+       terna1=ConversionTerna(Resultadosmano1);
+       par1=ConversionPar(Resultadosmano1);
+       cartaAlta1=ConversionCartaAlta(Resultadosmano1);
+       color1=Resultadosmano1[4];
+
+        poker2=ConversionPoker(Resultadosmano2);
+        terna2=ConversionTerna(Resultadosmano2);
+        par2=ConversionPar(Resultadosmano2);
+        cartaAlta2=ConversionCartaAlta(Resultadosmano2);
+        color2=Resultadosmano2[4];
+
+        console.log(poker1,"Poker 1");
+        console.log(terna1,"Terna 1");
+        console.log(par1,"Par 1");
+        console.log(cartaAlta1,"Carta Alta 1");
+        console.log(color1,"Color 1");
+        console.log(poker2,"Poker 2");
+        console.log(terna2,"Terna 2");
+        console.log(par2,"Par 2");
+        console.log(cartaAlta2,"Carta Alta 2");
+        console.log(color2,"Color 2");
+
+      
+       function ReglasDeJuego(poker,terna,par,cartaAlta,color){
+        
+            return vectorJuego;
+        }
+
+        
+        /****************(Conversion de Juegos en Mano )*********************/
+        function ConversionTerna(terna){
+            let vectorTerna=terna[2];
+            if(vectorTerna[1]==0 && vectorTerna[2]==0 && vectorTerna[3]==0 && vectorTerna[4]==0 && vectorTerna[0]){
+                return 0;
+            }else{
+                return vectorTerna[0];
+            }
+
+        } 
+
+        function ConversionPoker(poker){
+
+            //Conversion de poker
+            let vectorPoker=poker[3];
+             if(vectorPoker[1]==0 && vectorPoker[2]==0 && vectorPoker[3]==0 && vectorPoker[4]==0){
+                 return 0;
+             }else{
+                 return vectorPoker[0];
+             }
+        }
+
+        function ConversionPar(par){
+            //Conversion de par
+            console.log(par,"Par");
+            let vectorPar=par[1];
+            let dospares=[];
+            if(vectorPar[1]==0 && vectorPar[2]==0 && vectorPar[3]==0 && vectorPar[4]==0 && vectorPar[0]==0){
+                return 0;
+            }else if(vectorPar[0]!=0 && vectorPar[2]!=0){
+                return dospares=[vectorPar[0],vectorPar[2]];
+            }else{
+                return vectorPar[0];
+            }
+
+        }
+
+        function ConversionCartaAlta(cartaAlta){
+            //Conversion de carta alta
+            let vectorCartaAlta=cartaAlta[0];
+            if(vectorCartaAlta[1]==0 && vectorCartaAlta[2]==0 && vectorCartaAlta[3]==0 && vectorCartaAlta[4]==0 && vectorCartaAlta[0]==0){
+                return 0;
+            }else{
+                return vectorCartaAlta[0];
+            }
+        }
 
 
-        ValidacionColor(mano1Letras[0]);
-        ValidacionColor(mano2Letras[0]);
-        ValidacionPar(mano1Numeros[0]);
-        ValidacionPar(mano1Numeros[1]);
-        ValidacionPar(mano1Numeros[2]);
-        ValidacionPar(mano1Numeros[3]);
-        ValidacionPar(mano1Numeros[4]);
-        ValidacionTerna(mano1Numeros[0]);
-        ValidacionTerna(mano1Numeros[1]);
-        ValidacionTerna(mano1Numeros[2]);
-        ValidacionTerna(mano1Numeros[3]);
-        ValidacionTerna(mano1Numeros[4]);
+        /****************(Juegos en Mano )**********************************/   
+        function JuegoDeJugador(mano){  
+            let caralta1=ValidacionCartaAlta(mano[0]);
+            let caralta2=ValidacionCartaAlta(mano[1]);
+            let caralta3=ValidacionCartaAlta(mano[2]);
+            let caralta4=ValidacionCartaAlta(mano[3]);
+            let caralta5=ValidacionCartaAlta(mano[4]);
+            let par1=ValidacionPar(mano[0]);
+            let par2=ValidacionPar(mano[1]);
+            let par3=ValidacionPar(mano[2]);
+            let par4=ValidacionPar(mano[3]);
+            let par5=ValidacionPar(mano[4]);
+            let color=ValidacionColor(mano[5]);
+            let terna1=ValidacionTerna(mano[0]);
+            let terna2=ValidacionTerna(mano[1]);
+            let terna3=ValidacionTerna(mano[2]);
+            let terna4=ValidacionTerna(mano[3]);
+            let terna5=ValidacionTerna(mano[4]);
+            let poker1=ValidacionPoker(mano[0]);
+            let poker2=ValidacionPoker(mano[1]);
+            let poker3=ValidacionPoker(mano[2]);
+            let poker4=ValidacionPoker(mano[3]);
+            let poker5=ValidacionPoker(mano[4]);
+            
+            let totalCartaAlta=[caralta1, caralta2, caralta3, caralta4, caralta5];
+            let totalPar=[par1, par2, par3, par4, par5];
+            let totalTerna=[terna1, terna2, terna3, terna4, terna5];
+            let totalPoker=[poker1, poker2, poker3, poker4, poker5];
+            let totalColor=[color];
+
+            totalCartaAlta.sort(function(a, b){return b-a});
+            totalPar.sort(function(a, b){return b-a});
+            totalTerna.sort(function(a, b){return b-a});
+            totalPoker.sort(function(a, b){return b-a});
+
+
+            let totalJuego=[totalCartaAlta, totalPar, totalTerna, totalPoker, totalColor];  
+            
+         return totalJuego;
+        }     
         /**********************(Validacion Poker) *************************/
         //Respuesta  de Poker
         function ValidacionPoker(poker){
             let valPoker = ValidacionPokerEnMano(poker);
+            let pokA=14;
+            let pok2=2;
+            let pok3=3;
+            let pok4=4;
+            let pok5=5;
+            let pok6=6;
+            let pok7=7;
+            let pok8=8;
+            let pok9=9;
+            let pok10=10;
+            let pokJ=11;
+            let pokQ=12;
+            let pokK=13;
+
             if(valPoker[0]==1){
-                return console.log("Tiene poker de ases");
+                return pokA;
             }else if(valPoker[1]==1){
-                return console.log("Tiene poker de dos");
+                return pok2;
             }else if(valPoker[2]==1){
-                return console.log("Tiene poker de tres");
+                return pok3;
             }else if(valPoker[3]==1){
-                return console.log("Tiene poker de cuatros");
+                return pok4;
             } else if(valPoker[4]==1){
-                return console.log("Tiene poker de cincos");
+                return pok5;
             }else if(valPoker[5]==1){
-                return console.log("Tiene poker de seises");
+                return pok6;
             }else if(valPoker[6]==1){
-                return console.log("Tiene poker de sietes");
+                return pok7;
             }else if(valPoker[7]==1){
-                return console.log("Tiene poker de ochos");
+                return pok8;
             }else if(valPoker[8]==1){
-                return console.log("Tiene poker de nueves");
+                return pok9;
             }else if(valPoker[9]==1){
-                return console.log("Tiene poker de dieces");
+                return pok10;
             }else if(valPoker[10]==1){
-                return console.log("Tiene poker de jotas");
+                return pokJ;
             }else if(valPoker[11]==1){
-                return console.log("Tiene poker de reinas");
+                return pokQ;
             }else if(valPoker[12]==1){
-                return console.log("Tiene poker de reyes");
+                return pokK;
             } else{
-                return console.log("No tiene poker");
+                return 0;
             }
         }
         //Validacion de poker en la mano
@@ -162,33 +282,33 @@ router.post('/poker/validation', async (req, res) => {
             let pokerReyes = 0;
             if(poker[0]==1){
                 pokerAses++;
-            }else if(poker[1]==1){
+            }else if(poker[1]==4){
                 pokerDos++;
-            }else if(poker[2]==1){
+            }else if(poker[2]==4){
                 pokerTres++;
-            }else if(poker[3]==1){
+            }else if(poker[3]==4){
                 pokerCuatros++;
-            } else if(poker[4]==1){
+            } else if(poker[4]==4){
                 pokerCincos++;
-            }else if(poker[5]==1){
+            }else if(poker[5]==4){
                 pokerSeises++;
-            }else if(poker[6]==1){
+            }else if(poker[6]==4){
                 pokerSietes++;
-            }else if(poker[7]==1){
+            }else if(poker[7]==4){
                 pokerOchos++;
-            }else if(poker[8]==1){
+            }else if(poker[8]==4){
                 pokerNueves++;
-            }else if(poker[9]==1){
+            }else if(poker[9]==4){
                 pokerDieces++;
-            }else if(poker[10]==1){
+            }else if(poker[10]==4){
                 pokerJotas++;
-            }else if(poker[11]==1){
+            }else if(poker[11]==4){
                 pokerReinas++;
-            }else if(poker[12]==1){
+            }else if(poker[12]==4){
                 pokerReyes++;
             }
             let mano= [pokerAses,pokerDos,pokerTres,pokerCuatros,pokerCincos,pokerSeises,pokerSietes,pokerOchos,pokerNueves,pokerDieces,pokerJotas,pokerReinas,pokerReyes];
-
+            return mano;
 
         }
 
@@ -196,35 +316,48 @@ router.post('/poker/validation', async (req, res) => {
         //Respuesta  de Terna
         function ValidacionTerna(terna){
             let valTerna = ValidacionTernaEnMano(terna);
+            let tera=14;
+            let ter2=2;
+            let ter3=3;
+            let ter4=4;
+            let ter5=5;
+            let ter6=6;
+            let ter7=7;
+            let ter8=8;
+            let ter9=9;
+            let ter10=10;
+            let terJ=11;
+            let terQ=12;
+            let terK=13;
 
             if(valTerna[0]==1){
-                return console.log("Tiene terna de ases");
+                return tera;
             }else if(valTerna[1]==1){
-                return console.log("Tiene terna de dos");
+                return ter2;
             }else if(valTerna[2]==1){
-                return console.log("Tiene terna de tres");
+                return ter3;
             }else if(valTerna[3]==1){
-                return console.log("Tiene terna de cuatros");
+                return ter4;   
             } else if(valTerna[4]==1){
-                return console.log("Tiene terna de cincos");
+                return ter5;
             }else if(valTerna[5]==1){
-                return console.log("Tiene terna de seis");
+                return ter6;
             }else if(valTerna[6]==1){
-                return console.log("Tiene terna de sietes");
+                return ter7;
             }else if(valTerna[7]==1){
-                return console.log("Tiene terna de ochos");
+                return ter8;
             }else if(valTerna[8]==1){
-                return console.log("Tiene terna de nueves");
+                return ter9;
             }else if(valTerna[9]==1){
-                return console.log("Tiene terna de diez");
+                return ter10;
             }else if(valTerna[10]==1){
-                return console.log("Tiene terna de J");
+                return terJ;
             }else if(valTerna[11]==1){
-                return console.log("Tiene terna de Q");
+                return terQ;
             }else if(valTerna[12]==1){
-                return console.log("Tiene terna de K");
+                return terK;
             } else{
-                return console.log("No tiene ternas");
+                return 0;
             }
 
         }
@@ -279,35 +412,49 @@ router.post('/poker/validation', async (req, res) => {
         //Respuesta  de Par
         function ValidacionPar(par){
             let valPar = ValidacionParEnMano(par);
+            let parA=14;
+            let par2=2;
+            let par3=3;
+            let par4=4;
+            let par5=5;
+            let par6=6;
+            let par7=7;
+            let par8=8;
+            let par9=9;
+            let par10=10;
+            let parJ=11;
+            let parQ=12;
+            let parK=13;
+            let sigCartaAlta=0;
 
             if(valPar[0]==1){
-                return console.log("Tiene par de ases");
+                return parA;
             }else if(valPar[1]==1){
-                return console.log("Tiene par de dos");
+                return par2;
             }else if(valPar[2]==1){
-                return console.log("Tiene par de tres");
+                return par3;
             }else if(valPar[3]==1){
-                return console.log("Tiene par de cuatros");
+                return par4;
             } else if(valPar[4]==1){
-                return console.log("Tiene par de cincos");
+                return par5;
             }else if(valPar[5]==1){
-                return console.log("Tiene par de seis");
+                return par6;
             }else if(valPar[6]==1){
-                return console.log("Tiene par de sietes");
+                return par7;
             }else if(valPar[7]==1){
-                return console.log("Tiene par de ochos");
+                return par8;
             }else if(valPar[8]==1){
-                return console.log("Tiene par de nueves");
+                return par9;
             }else if(valPar[9]==1){
-                return console.log("Tiene par de diez");
+                return par10;
             }else if(valPar[10]==1){
-                return console.log("Tiene par de J");
+                return parJ;
             }else if(valPar[11]==1){
-                return console.log("Tiene par de Q");
+                return parQ;
             }else if(valPar[12]==1){
-                return console.log("Tiene par de K");
+                return parK;
             } else{
-                return console.log("No tiene pares");
+                return sigCartaAlta;
             }
         
         }
@@ -358,22 +505,122 @@ router.post('/poker/validation', async (req, res) => {
                 let valPar= [parA,par2,par3,par4,par5,par6,par7,par8,par9,par10,parJ,parQ,parK];
             return valPar;
         } 
+        /*******************(Validacion de carta alta) ***********************/
+        //Respuesta de carta alta
+        function ValidacionCartaAlta(cartaAlta){
+            let valCartaAlta = ValidacionCartaAltaEnMano(cartaAlta);
+
+            let cartaAltaA=14;
+            let cartaAlta2=2;
+            let cartaAlta3=3;
+            let cartaAlta4=4;
+            let cartaAlta5=5;
+            let cartaAlta6=6;
+            let cartaAlta7=7;
+            let cartaAlta8=8;
+            let cartaAlta9=9;
+            let cartaAlta10=10;
+            let cartaAltaJ=11;
+            let cartaAltaQ=12;
+            let cartaAltaK=13;
+
+            if(valCartaAlta[0]==1){
+                return cartaAltaA;
+            }else if(valCartaAlta[1]==1){
+                return cartaAlta2;
+            }else if(valCartaAlta[2]==1){
+                return cartaAlta3;
+            }else if(valCartaAlta[3]==1){
+                return cartaAlta4;
+            } else if(valCartaAlta[4]==1){
+                return cartaAlta5;
+            }else if(valCartaAlta[5]==1){
+                return cartaAlta6;
+            }else if(valCartaAlta[6]==1){
+                return cartaAlta7;
+            }else if(valCartaAlta[7]==1){
+                return cartaAlta8;
+            }else if(valCartaAlta[8]==1){
+                return cartaAlta9;
+            }else if(valCartaAlta[9]==1){
+                return cartaAlta10;
+            }else if(valCartaAlta[10]==1){
+                return cartaAltaJ;
+            }else if(valCartaAlta[11]==1){
+                return cartaAltaQ;
+            }else if(valCartaAlta[12]==1){
+                return cartaAltaK;
+            } else{
+                return 0;
+            }
+        }
+        //Funtion de validacion para carta alta
+        function ValidacionCartaAltaEnMano(cartas)   {
+
+            let cartaAltaA=0;
+            let cartaAlta2=0;
+            let cartaAlta3=0;
+            let cartaAlta4=0;
+            let cartaAlta5=0;
+            let cartaAlta6=0;
+            let cartaAlta7=0;
+            let cartaAlta8=0;
+            let cartaAlta9=0;
+            let cartaAlta10=0;
+            let cartaAltaJ=0;
+            let cartaAltaQ=0;
+            let cartaAltaK=0;
+
+            if(cartas[0]==1){
+                cartaAltaA++;   
+            }else if(cartas[1]==1){
+                cartaAlta2++;
+            }else if(cartas[2]==1){
+                cartaAlta3++;
+            }else if(cartas[3]==1){
+                cartaAlta4++;
+            }else if(cartas[4]==1){
+                cartaAlta5++;
+            }else if(cartas[5]==1){
+                cartaAlta6++;
+            }else if(cartas[6]==1){
+                cartaAlta7++;
+            }else if(cartas[7]==1){
+                cartaAlta8++;
+            }else if(cartas[8]==1){
+                cartaAlta9++;
+            }else if(cartas[9]==1){
+                cartaAlta10++;
+            }else if(cartas[10]==1){
+                cartaAltaJ++;
+            }else if(cartas[11]==1){
+                cartaAltaQ++;
+            } else if(cartas[12]==1){
+                cartaAltaK++;
+            }
+            let mano=[cartaAltaA,cartaAlta2,cartaAlta3,cartaAlta4,cartaAlta5,cartaAlta6,cartaAlta7,cartaAlta8,cartaAlta9,cartaAlta10,cartaAltaJ,cartaAltaQ,cartaAltaK];
+            return mano;
+         }
         /*******************(Validacion de color) ***********************/
         //Respuesta del Color
         function ValidacionColor(color){
 
             let valColor1= ColorEnMano(color);
+            let colorH="Corazones";
+            let colorD="Diamantes";
+            let colorC="Trevol";
+            let colorS="Picas";
     
             if(valColor1[0]==1){
-                return console.log("Color de Corazones");
+                return colorH;
             }else if(valColor1[1]==1){
-                 return console.log("Color de Diamantes");
+                 return colorC;
             } else if(valColor1[2]==1){
-                 return console.log("Color de trevol");
+                 return colorS;
             }else if(valColor1[3]==1){
-                 return console.log("Color de picas");
+                 return colorD;
             }else{
-                 return console.log("No hay color");
+                 return "No tiene color";
             }
              
 
@@ -515,7 +762,8 @@ router.post('/poker/validation', async (req, res) => {
       }
         
         );
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Error:', error.message);
       res.status(500).json({ error: 'Error interno del servidor' });
     }
