@@ -32,7 +32,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 
-    // Respuesta del servidor
+// Respuesta del servidor
   try {
     const response = await axios.get('https://jsonplaceholder.typicode.com/posts/1');
     res.json(response.data);
@@ -89,47 +89,172 @@ router.post('/poker/validation', async (req, res) => {
         let  mano2Numeros= JuegoDeCartasEnManoNumero(cart2m11, cart2m21, cart2m31, cart2m41, cart2m51);
         let  mano2Letras= JuegoDeCartasEnManoLetra(cart2m12, cart2m22, cart2m32, cart2m42, cart2m52);
       
+     //mano 1
+    let mano1Total= [mano1Numeros[0],mano1Numeros[1],mano1Numeros[2],mano1Numeros[3], mano1Numeros[4],mano1Letras[0],mano1Letras[1],mano1Letras[2],mano1Letras[3]];
+    //mano 2
+    let mano2Total= [mano2Numeros[0],mano2Numeros[1],mano2Numeros[2],mano2Numeros[3], mano2Numeros[4],mano2Letras[0],mano2Letras[1],mano2Letras[2],mano2Letras[3]];
 
-        //mano 1
-        let mano1Total= [mano1Numeros[0],mano1Numeros[1],mano1Numeros[2],mano1Numeros[3], mano1Numeros[4],mano1Letras[0],mano1Letras[1],mano1Letras[2],mano1Letras[3]];
-        //mano 2
-        let mano2Total= [mano2Numeros[0],mano2Numeros[1],mano2Numeros[2],mano2Numeros[3], mano2Numeros[4],mano2Letras[0],mano2Letras[1],mano2Letras[2],mano2Letras[3]];
 
+    //Resultados del juego
+    Resultadosmano1=JuegoDeJugador(mano1Total);
+    Resultadosmano2=JuegoDeJugador(mano2Total);
        
-        console.log(Resultadosmano1,"Juego de jugador 1");
-        console.log(Resultadosmano2,"Juego de jugador 2");
+    /**************Conversion de resultados de juego*******************************/
 
-       poker1=ConversionPoker(Resultadosmano1);
-       terna1=ConversionTerna(Resultadosmano1);
-       par1=ConversionPar(Resultadosmano1);
-       cartaAlta1=ConversionCartaAlta(Resultadosmano1);
-       color1=Resultadosmano1[4];
+    poker1=ConversionPoker(Resultadosmano1);
+    terna1=ConversionTerna(Resultadosmano1);
+    par1=ConversionPar(Resultadosmano1);
+    cartaAlta1=ConversionCartaAlta(Resultadosmano1);
+    color1=ConversionColor(Resultadosmano1);
 
-        poker2=ConversionPoker(Resultadosmano2);
-        terna2=ConversionTerna(Resultadosmano2);
-        par2=ConversionPar(Resultadosmano2);
-        cartaAlta2=ConversionCartaAlta(Resultadosmano2);
-        color2=Resultadosmano2[4];
+    poker2=ConversionPoker(Resultadosmano2);
+    terna2=ConversionTerna(Resultadosmano2);
+    par2=ConversionPar(Resultadosmano2);
+    cartaAlta2=ConversionCartaAlta(Resultadosmano2);
+    color2=ConversionColor(Resultadosmano2);
 
-        console.log(poker1,"Poker 1");
-        console.log(terna1,"Terna 1");
-        console.log(par1,"Par 1");
-        console.log(cartaAlta1,"Carta Alta 1");
-        console.log(color1,"Color 1");
-        console.log(poker2,"Poker 2");
-        console.log(terna2,"Terna 2");
-        console.log(par2,"Par 2");
-        console.log(cartaAlta2,"Carta Alta 2");
-        console.log(color2,"Color 2");
 
-      
-       function ReglasDeJuego(poker,terna,par,cartaAlta,color){
-        
-            return vectorJuego;
+    manoJugador1=ReglasDeJuego(poker1,color1,terna1,par1,cartaAlta1);
+    manoJugador2=ReglasDeJuego(poker2,color2,terna2,par2,cartaAlta2);
+
+
+
+    console.log(manoJugador1,"Mano 1");
+    console.log(manoJugador2,"Mano 2");
+
+
+    ganador=GanadorDeJuego(manoJugador1,manoJugador2);
+
+    let ganadorOrdenado=ordenGanador(ganador);
+    console.log(ganadorOrdenado,"Ganador Ordenado");
+
+
+    function ordenGanador(ganador){
+        let ordenGanador=[ganador[0],ganador[1],ganador[2],ganador[3]];
+        if(ganador[2]==14){
+            ordenGanador[2]="A";
+        }else if(ganador[2]==13){
+            ordenGanador[2]="K";
+        }else if(ganador[2]==12){
+            ordenGanador[2]="Q";
+        }else if(ganador[2]==11){
+            ordenGanador[2]="J";
+        }else if(ganador[2]==10){
+            ordenGanador[2]="10";
+        }else if(ganador[2]==9){
+            ordenGanador[2]="9";
+        }else if(ganador[2]==8){
+            ordenGanador[2]="8";
+        }else if(ganador[2]==7){
+            ordenGanador[2]="7";
+        }else if(ganador[2]==6){
+            ordenGanador[2]="6";
+        }else if(ganador[2]==5){
+            ordenGanador[2]="5";
+        }else if(ganador[2]==4){
+            ordenGanador[2]="4";
+        }else if(ganador[2]==3){
+            ordenGanador[2]="3";
+        }else if(ganador[2]==2){
+            ordenGanador[2]="2";
+        }else if(ganador[3]==undefined){
+            ordenGanador[3]="";
         }
 
+        return ordenGanador;
         
+    }
+
+    /*************************(Comparacion para Ganador) *********************/
+
+    function GanadorDeJuego(manoJugador1,manoJugador2){
+       
+        puntuacionDeMano1=0;
+        puntucionDeMano2=0;
+        let ganador=[];
+
+        switch (manoJugador1[0]) {
+            case "Poker":puntuacionDeMano1=7;break;
+            case "FullHouse":puntuacionDeMano1=6;break;
+            case "Flush":puntuacionDeMano1=5;break;
+            case "terna":puntuacionDeMano1=4;break;
+            case "TwoPair":puntuacionDeMano1=3;break;
+            case "OnePair":puntuacionDeMano1=2;break;
+            case "HighCard":puntuacionDeMano1=1;break;
+        }
+        switch (manoJugador2[0]) {
+            case "Poker":puntuacionDeMano2=7;break;
+            case "FullHouse":puntuacionDeMano2=6;break;
+            case "Flush":puntuacionDeMano2=5;break;
+            case "terna":puntuacionDeMano2=4;break;
+            case "TwoPair":puntuacionDeMano2=3;break;
+            case "OnePair":puntuacionDeMano2=2;break;
+            case "HighCard":puntuacionDeMano2=1;break;
+        }
+
+        if(puntuacionDeMano1>puntuacionDeMano2){
+            return ganador=["hand1",manoJugador1[0],manoJugador1[1],manoJugador1[2]];
+        }else if(puntuacionDeMano1<puntuacionDeMano2){
+            return ganador=["hand2",manoJugador2[0],manoJugador2[1],manoJugador2[2]];
+        }else if(puntuacionDeMano1==puntuacionDeMano2){
+            if(manoJugador1[1]>manoJugador2[1]){
+                return ganador=["hand1",manoJugador1[0],manoJugador1[1],manoJugador2[2]];;
+            }else if(manoJugador1[1]<manoJugador2[1]){
+                return ganador=["hand2",manoJugador2[0],manoJugador2[1],manoJugador2[2]];;
+            }else if(manoJugador1[1]==manoJugador2[1]){
+                return "Empate"; 
+            } 
+        }    
+
+    }
+
+      /****************************(Funciones) ******************************/
+       function ReglasDeJuego(poker,color,terna,par,cartaAlta){
+        let juego=[poker,color,terna,par,cartaAlta];
+        let pokeraux=[];
+        let ternaFull=[];
+        let ternaaux=[];
+        let paraux=[];
+        let cartaAltaaux=[];
+        let coloraux=[];
+         
+        if(juego[0]!=0){
+            return pokeraux=["Poker",juego[0]];
+        }else if(juego[2]!=0 && juego[3]!=0){
+            return ternaFull=["FullHouse",juego[2],juego[3]];
+        }else if(juego[1]!=0){
+            return coloraux=["Flush",juego[1]];
+        }else if(juego[2]!=0){
+            return ternaaux=["Three",juego[2]];
+        }else if(juego[3].length==2 && juego[3][0]!=0 && juego[3][1]!=0){
+            return paraux=["TwoPair",juego[3][0],juego[3][1]];
+        }else if(juego[3]!=0){
+            return paraux=["OnePair",juego[3]];
+        }else if(juego[4]!=0){
+            return cartaAltaaux=["HighCard",juego[4]] ;
+        }else{
+            return "No hay juego";
+        }   
+
+        }
+       
         /****************(Conversion de Juegos en Mano )*********************/
+        function ConversionColor(color){
+            //Conversion de color
+            let vectorColor=color[4];
+            if(vectorColor==1){
+                return "H";
+            }else if(vectorColor==2){
+                return "D";
+            }else if(vectorColor==3){
+                return "C";
+            }else if(vectorColor==4){
+                return "S";
+            }else{
+                return 0;
+            }
+        }
+
         function ConversionTerna(terna){
             let vectorTerna=terna[2];
             if(vectorTerna[1]==0 && vectorTerna[2]==0 && vectorTerna[3]==0 && vectorTerna[4]==0 && vectorTerna[0]){
@@ -153,7 +278,6 @@ router.post('/poker/validation', async (req, res) => {
 
         function ConversionPar(par){
             //Conversion de par
-            console.log(par,"Par");
             let vectorPar=par[1];
             let dospares=[];
             if(vectorPar[1]==0 && vectorPar[2]==0 && vectorPar[3]==0 && vectorPar[4]==0 && vectorPar[0]==0){
@@ -175,8 +299,6 @@ router.post('/poker/validation', async (req, res) => {
                 return vectorCartaAlta[0];
             }
         }
-
-
         /****************(Juegos en Mano )**********************************/   
         function JuegoDeJugador(mano){  
             let caralta1=ValidacionCartaAlta(mano[0]);
@@ -606,10 +728,10 @@ router.post('/poker/validation', async (req, res) => {
         function ValidacionColor(color){
 
             let valColor1= ColorEnMano(color);
-            let colorH="Corazones";
-            let colorD="Diamantes";
-            let colorC="Trevol";
-            let colorS="Picas";
+            let colorH=1;
+            let colorD=2;
+            let colorC=3;
+            let colorS=4;
     
             if(valColor1[0]==1){
                 return colorH;
@@ -620,7 +742,7 @@ router.post('/poker/validation', async (req, res) => {
             }else if(valColor1[3]==1){
                  return colorD;
             }else{
-                 return "No tiene color";
+                 return 0;
             }
              
 
@@ -750,13 +872,13 @@ router.post('/poker/validation', async (req, res) => {
         {
 
         "winnerHand": {
-          "type": cart1m11
+          "type": ganadorOrdenado[0]
         },
         "winnerHandType": {
-          "type": cart1m12
+          "type": ganadorOrdenado[1]
         },
         "compositionWinnerHand": {
-          "type": cart1m11
+          "type": ganadorOrdenado[2]+" & "+ganadorOrdenado[3]  
 
         }
       }
