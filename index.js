@@ -871,16 +871,9 @@ router.post('/poker/validation', async (req, res) => {
        res.json(
         {
 
-        "winnerHand": {
-          "type": ganadorOrdenado[0]
-        },
-        "winnerHandType": {
-          "type": ganadorOrdenado[1]
-        },
-        "compositionWinnerHand": {
-          "type": ganadorOrdenado[2]+" & "+ganadorOrdenado[3]  
-
-        }
+        "winnerHand":ganadorOrdenado[0],
+        "winnerHandType": ganadorOrdenado[1],
+        "compositionWinnerHand":ganadorOrdenado[2]+" & "+ganadorOrdenado[3]
       }
         
         );
