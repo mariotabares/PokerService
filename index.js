@@ -51,13 +51,10 @@ router.post('/poker/validation', async (req, res) => {
         // Convercion del String
         let mano1 = req.body.hand1;                                 
         let mano2 = req.body.hand2;
-        console.log(mano1,"Mano 1");
-        console.log(mano2,"Mano 2");
+
         // cartas en la mano
         let cartas1 = mano1.split(" ");
         let cartas2 = mano2.split(" ");
-        console.log(cartas1,"Cartas 1");
-        console.log(cartas2,"Cartas 2");
 
         // cartas mano 1 divididas
         let cart1m11 = cartas1[0][0];
@@ -125,16 +122,31 @@ router.post('/poker/validation', async (req, res) => {
 
     ganador=GanadorDeJuego(manoJugador1,manoJugador2);
 
+    
+
+
+
     let ganadorOrdenado=ordenGanador(ganador);
-    console.log(ganadorOrdenado,"Ganador Ordenado");
+    let ganadorfinal=[];
+if(ganadorOrdenado[3]==undefined){
+
+     ganadorfinal=[ganadorOrdenado[0],ganadorOrdenado[1],ganadorOrdenado[2]];
+    console.log(ganadorfinal,"Gandor Ordenado1");
+
+}else{
+    ganadorfinal=[ganadorOrdenado[0],ganadorOrdenado[1],ganadorOrdenado[2],ganadorOrdenado[3]];
+    console.log(ganadorfinal,"Gandor Ordenado2");
+}
 
 
     function ordenGanador(ganador){
+
+        
         let ordenGanador=[ganador[0],ganador[1],ganador[2],ganador[3]];
         if(ganador[2]==14){
             ordenGanador[2]="As";
         }else if(ganador[2]==13){
-            ordenGanador[2]="K";
+            ordenGanador[2]="King";
         }else if(ganador[2]==12){
             ordenGanador[2]="Q";
         }else if(ganador[2]==11){
@@ -158,7 +170,7 @@ router.post('/poker/validation', async (req, res) => {
         }else if(ganador[2]==2){
             ordenGanador[2]="2";
         }else if(ganador[3]==undefined){
-            ordenGanador[3]="";
+            ganador=[ganador[0],ganador[1],ganador[2]];
         }
 
         return ordenGanador;
@@ -873,7 +885,7 @@ router.post('/poker/validation', async (req, res) => {
 
         "winnerHand":ganadorOrdenado[0],
         "winnerHandType": ganadorOrdenado[1],
-        "compositionWinnerHand":ganadorOrdenado[2]+" & "+ganadorOrdenado[3]
+        "compositionWinnerHand":ganadorfinal[2]+" & "+ganadorfinal[3]
       }
         
         );
