@@ -132,7 +132,7 @@ router.post('/poker/validation', async (req, res) => {
     function ordenGanador(ganador){
         let ordenGanador=[ganador[0],ganador[1],ganador[2],ganador[3]];
         if(ganador[2]==14){
-            ordenGanador[2]="A";
+            ordenGanador[2]="As";
         }else if(ganador[2]==13){
             ordenGanador[2]="K";
         }else if(ganador[2]==12){
@@ -177,7 +177,7 @@ router.post('/poker/validation', async (req, res) => {
             case "Poker":puntuacionDeMano1=7;break;
             case "FullHouse":puntuacionDeMano1=6;break;
             case "Flush":puntuacionDeMano1=5;break;
-            case "terna":puntuacionDeMano1=4;break;
+            case "Three":puntuacionDeMano1=4;break;
             case "TwoPair":puntuacionDeMano1=3;break;
             case "OnePair":puntuacionDeMano1=2;break;
             case "HighCard":puntuacionDeMano1=1;break;
@@ -186,7 +186,7 @@ router.post('/poker/validation', async (req, res) => {
             case "Poker":puntuacionDeMano2=7;break;
             case "FullHouse":puntuacionDeMano2=6;break;
             case "Flush":puntuacionDeMano2=5;break;
-            case "terna":puntuacionDeMano2=4;break;
+            case "Three":puntuacionDeMano2=4;break;
             case "TwoPair":puntuacionDeMano2=3;break;
             case "OnePair":puntuacionDeMano2=2;break;
             case "HighCard":puntuacionDeMano2=1;break;
