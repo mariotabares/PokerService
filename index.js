@@ -255,9 +255,9 @@ if(ganadorOrdenado[3]==undefined){
             //Conversion de color
             let vectorColor=color[4];
             if(vectorColor==1){
-                return "H";
+                return "Heart";
             }else if(vectorColor==2){
-                return "D";
+                return "Diamons";
             }else if(vectorColor==3){
                 return "C";
             }else if(vectorColor==4){

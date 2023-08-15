@@ -1,0 +1,12 @@
+Se realizaron los tes para 
+
+*HighCard
+*TwoPair
+*ThreeOfAKind
+*OnePair
+*Flush
+*FullHouse
+*Poker
+
+
+Se resalta que los tes no logrados llegaron a la respuesta correcta, con la dificulta de poder visualizarlos correctamente para el test. 
